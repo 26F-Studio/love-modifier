@@ -6,7 +6,7 @@ const path = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(path).parseSync();
 
 const targetKey = project.findTargetKey('love-macosx');
-const resourcesGroupKey = project.findPBXGroupKey({path: 'Resources'});
+const resourcesGroupKey = project.findPBXGroupKey({name: 'Resources'});
 // project.addBuildProperty('CODE_SIGN_ENTITLEMENTS', 'App/App.entitlements');
 // project.addBuildProperty('DEVELOPMENT_TEAM', developmentTeamId);
 // project.addFile('App.entitlements', resourcesGroupKey);
