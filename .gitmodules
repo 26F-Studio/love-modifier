@@ -1,0 +1,4 @@
+[submodule "love"]
+	path = love
+	url = https://github.com/26F-Studio/love
+	branch = ci-test
