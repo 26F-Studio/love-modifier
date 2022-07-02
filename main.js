@@ -13,6 +13,7 @@ fs.writeFileSync(pbxprojPath, project.writeSync());
 const plistPath = './love/platform/xcode/macosx/love-macosx.plist';
 const parsed = plist['parse'](fs.readFileSync(plistPath, 'utf8'));
 parsed['CFBundleName'] = '${{ inputs.appName }}';
+delete parsed['UTExportedTypeDeclarations'];
 fs.writeFileSync(plistPath, plist['build'](parsed));
 
 // project.addBuildProperty('CODE_SIGN_ENTITLEMENTS', 'App/App.entitlements');
