@@ -1,12 +1,9 @@
 const fs = require('fs');
 const plist = require('plist');
 
-const path = './love/platform/xcode/macosx/love-macosx.plist';
+const plistPath = './love/platform/xcode/macosx/love-macosx.plist';
 
-const parsed = plist['parse'](fs.readFileSync(path, 'utf8'));
-
-console.log(JSON.stringify(parsed, null, 2));
-
+const parsed = plist['parse'](fs.readFileSync(plistPath, 'utf8'));
 parsed['CFBundleName'] = 'Quatrack';
 
-fs.writeFileSync(path, plist['build'](parsed));
+fs.writeFileSync(plistPath, plist['build'](parsed));
