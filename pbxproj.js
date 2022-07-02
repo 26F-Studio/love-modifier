@@ -1,7 +1,6 @@
 const fs = require('fs');
 const xcode = require('xcode');
 
-const developmentTeamId = process.argv[2];
 const path = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(path).parseSync();
 
