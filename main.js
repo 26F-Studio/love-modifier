@@ -5,6 +5,7 @@ const xcode = require('xcode');
 const pbxprojPath = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(pbxprojPath).parseSync();
 project.updateProductName('${{ inputs.appName }}');
+project.pbxXCBuildConfigurationSection('MACOSX_DEPLOYMENT_TARGET', '10.9');
 const resourcesGroupKey = project.findPBXGroupKey({name: 'Resources'});
 const targetKey = project.findTargetKey('"love-macosx"')
 project.addResourceFile('./target.love', {target: targetKey}, resourcesGroupKey);
