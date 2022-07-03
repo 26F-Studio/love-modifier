@@ -24,11 +24,7 @@ fs.writeFileSync(plistPath, plist['build'](parsed));
 const iconPath = './love/platform/xcode/Images.xcassets/OS X AppIcon.appiconset/Contents.json';
 const iconContents = JSON.parse(fs.readFileSync(iconPath, 'utf8'));
 iconContents.images.forEach(image => {
-    image.filename = 'icon_' + image.size + image.scale === '2x' ? '@2x' : '' + '.png';
+    image.filename = 'icon_' + image.size + (image.scale === '2x' ? '@2x' : '') + '.png';
 });
 console.info(iconContents);
-
-// project.addBuildProperty('CODE_SIGN_ENTITLEMENTS', 'App/App.entitlements');
-// project.addBuildProperty('DEVELOPMENT_TEAM', developmentTeamId);
-// project.addFile('App.entitlements', resourcesGroupKey);
-// project.removeFile('GoogleService-Info.plist', resourcesGroupKey);
+fs.writeFileSync(iconPath, JSON.stringify(iconContents));
