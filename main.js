@@ -4,7 +4,11 @@ const xcode = require('xcode');
 
 const pbxprojPath = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(pbxprojPath).parseSync();
-project.updateBuildProperty('PRODUCT_NAME', '${{ steps.process-app-name.outputs.product-name }}', null, 'love-macosx')
+project.updateBuildProperty('CODE_SIGN_IDENTITY', 'Developer ID Application', 'Distribution', 'love-macosx')
+project.updateBuildProperty('MACOSX_DEPLOYMENT_TARGET', '10.9', 'Distribution', 'love-macosx')
+project.updateBuildProperty('MARKETING_VERSION', '${{ inputs.versionString }}', 'Distribution', 'love-macosx')
+project.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', '${{ steps.process-app-name.outputs.bundle-id }}', 'Distribution', 'love-macosx')
+project.updateBuildProperty('PRODUCT_NAME', '${{ steps.process-app-name.outputs.product-name }}', 'Distribution', 'love-macosx')
 const resourcesGroupKey = project.findPBXGroupKey({name: 'Resources'});
 const targetKey = project.findTargetKey('"love-macosx"')
 project.addResourceFile('./target.love', {target: targetKey}, resourcesGroupKey);
@@ -22,6 +26,7 @@ fs.writeFileSync(plistPath, plist['build'](parsed));
 const exportPlistPath = './love/platform/xcode/macosx/macos-copy-app.plist';
 const exportPlist = plist['parse'](fs.readFileSync(exportPlistPath, 'utf8'));
 exportPlist['method'] = 'developer-id';
+// exportPlist['signingCertificate'] = 'Developer ID Application';
 fs.writeFileSync(exportPlistPath, plist['build'](exportPlist));
 
 const iconPath = './love/platform/xcode/Images.xcassets/OS X AppIcon.appiconset/Contents.json';
