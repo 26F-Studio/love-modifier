@@ -4,7 +4,6 @@ const xcode = require('xcode');
 
 const pbxprojPath = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(pbxprojPath).parseSync();
-project.updateBuildProperty('CODE_SIGN_IDENTITY', '"Developer ID Application"', 'Distribution', 'love-macosx')
 project.updateBuildProperty('MACOSX_DEPLOYMENT_TARGET', '10.9', 'Distribution', 'love-macosx')
 project.updateBuildProperty('MARKETING_VERSION', '${{ inputs.versionString }}', 'Distribution', 'love-macosx')
 project.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', '${{ steps.process-app-name.outputs.bundle-id }}', 'Distribution', 'love-macosx')
@@ -26,7 +25,12 @@ fs.writeFileSync(plistPath, plist['build'](parsed));
 const exportPlistPath = './love/platform/xcode/macosx/macos-copy-app.plist';
 const exportPlist = plist['parse'](fs.readFileSync(exportPlistPath, 'utf8'));
 exportPlist['method'] = 'developer-id';
-// exportPlist['signingCertificate'] = 'Developer ID Application';
+exportPlist['signingCertificate'] = 'Developer ID Application';
+provisioningProfile = fs.readFileSync('./developerID_application.provisionprofile', 'utf8');
+uuid = provisioningProfile.substr(provisioningProfile.indexOf('>', provisioningProfile.indexOf('UUID') + 10) + 1, 36);
+exportPlist['provisioningProfiles'] = {
+    '${{ steps.process-app-name.outputs.bundle-id }}': uuid
+};
 fs.writeFileSync(exportPlistPath, plist['build'](exportPlist));
 
 const iconPath = './love/platform/xcode/Images.xcassets/OS X AppIcon.appiconset/Contents.json';
