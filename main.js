@@ -4,7 +4,7 @@ const xcode = require('xcode');
 
 const pbxprojPath = './love/platform/xcode/love.xcodeproj/project.pbxproj';
 const project = xcode.project(pbxprojPath).parseSync();
-project.updateBuildProperty('CODE_SIGN_IDENTITY', 'Developer ID Application', 'Distribution', 'love-macosx')
+project.updateBuildProperty('CODE_SIGN_IDENTITY', '"Developer ID Application"', 'Distribution', 'love-macosx')
 project.updateBuildProperty('MACOSX_DEPLOYMENT_TARGET', '10.9', 'Distribution', 'love-macosx')
 project.updateBuildProperty('MARKETING_VERSION', '${{ inputs.versionString }}', 'Distribution', 'love-macosx')
 project.updateBuildProperty('PRODUCT_BUNDLE_IDENTIFIER', '${{ steps.process-app-name.outputs.bundle-id }}', 'Distribution', 'love-macosx')
